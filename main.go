@@ -53,7 +53,7 @@ func main() {
 
 		for _, mergeRequest := range mrs {
 			if mergeRequest.ProjectID == GitLabProjectID {
-				fmt.Println(mergeRequest.Title, mergeRequest.Description, mergeRequest.DetailedMergeStatus, mergeRequest.WebURL)
+				fmt.Println(mergeRequest.Title, "|", mergeRequest.Description, "|", mergeRequest.DetailedMergeStatus, "|", mergeRequest.WebURL)
 			}
 		}
 
