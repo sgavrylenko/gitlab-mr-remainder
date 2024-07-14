@@ -8,9 +8,9 @@ import (
 )
 
 func main() {
-	GitlabAuthToken, ok := os.LookupEnv("CI_JOB_TOKEN")
+	GitlabAuthToken, ok := os.LookupEnv("MR_REMAINDER_TOKEN")
 	if !ok || GitlabAuthToken == "" {
-		fmt.Println("CI_JOB_TOKEN environment variable not set")
+		fmt.Println("MR_REMAINDER_TOKEN environment variable not set")
 		os.Exit(1)
 	}
 	GitLabBaseURL, ok := os.LookupEnv("CI_SERVER_URL")
