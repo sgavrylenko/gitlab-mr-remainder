@@ -58,7 +58,7 @@ func main() {
 					mergeRequest.Title, "|",
 					mergeRequest.Description, "|",
 					mergeRequest.DetailedMergeStatus, "|",
-					fmt.Sprintf("%.0f days old", time.Now().Sub(mergeRequest.UpdatedAt.UTC()).Hours()/24), "|",
+					fmt.Sprintf("is %.0f days old", time.Now().Sub(mergeRequest.UpdatedAt.UTC()).Hours()/24), "|",
 					mergeRequest.WebURL,
 				)
 			}
