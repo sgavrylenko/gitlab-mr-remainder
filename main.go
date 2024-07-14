@@ -5,6 +5,7 @@ import (
 	"github.com/xanzy/go-gitlab"
 	"os"
 	"strconv"
+	"time"
 )
 
 func main() {
@@ -53,7 +54,13 @@ func main() {
 
 		for _, mergeRequest := range mrs {
 			if mergeRequest.ProjectID == GitLabProjectID {
-				fmt.Println(mergeRequest.Title, "|", mergeRequest.Description, "|", mergeRequest.DetailedMergeStatus, "|", mergeRequest.WebURL)
+				fmt.Println(
+					mergeRequest.Title, "|",
+					mergeRequest.Description, "|",
+					mergeRequest.DetailedMergeStatus, "|",
+					fmt.Sprintf("%.0f days old", time.Now().Sub(mergeRequest.UpdatedAt.UTC()).Hours()/24), "|",
+					mergeRequest.WebURL,
+				)
 			}
 		}
 
