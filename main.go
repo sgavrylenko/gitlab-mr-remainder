@@ -2,10 +2,11 @@ package main
 
 import (
 	"fmt"
-	"github.com/xanzy/go-gitlab"
 	"os"
 	"strconv"
 	"time"
+
+	"github.com/xanzy/go-gitlab"
 )
 
 func main() {
