@@ -27,10 +27,10 @@ func NewAppConfig() (*AppConfig, error) {
 	if !ok || gitLabProjectID == "" {
 		return nil, fmt.Errorf("CI_PROJECT_ID environment variable not set")
 	}
+
 	GitLabProjectID, err := strconv.Atoi(gitLabProjectID)
 	if err != nil {
-		fmt.Println(err)
-		os.Exit(1)
+		return nil, err
 	}
 
 	return &AppConfig{
