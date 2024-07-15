@@ -2,43 +2,30 @@ package main
 
 import (
 	"fmt"
+	"github.com/sgavrylenko/gitlab-mr-remander/internal/config"
 	"os"
-	"strconv"
 	"time"
 
 	"github.com/xanzy/go-gitlab"
 )
 
-func main() {
-	GitlabAuthToken, ok := os.LookupEnv("MR_REMAINDER_TOKEN")
-	if !ok || GitlabAuthToken == "" {
-		fmt.Println("MR_REMAINDER_TOKEN environment variable not set")
-		os.Exit(1)
-	}
-	GitLabBaseURL, ok := os.LookupEnv("CI_SERVER_URL")
-	if !ok || GitLabBaseURL == "" {
-		fmt.Println("CI_SERVER_URL environment variable not set")
-		os.Exit(1)
-	}
+const mrPerPage = 100
 
-	gitLabProjectID, ok := os.LookupEnv("CI_PROJECT_ID")
-	if !ok || gitLabProjectID == "" {
-		fmt.Println("CI_PROJECT_ID environment variable not set")
-	}
-	GitLabProjectID, err := strconv.Atoi(gitLabProjectID)
+func main() {
+	appConfig, err := config.NewAppConfig()
 	if err != nil {
 		fmt.Println(err)
 		os.Exit(1)
 	}
 
-	git, err := gitlab.NewClient(GitlabAuthToken, gitlab.WithBaseURL(GitLabBaseURL))
+	git, err := gitlab.NewClient(appConfig.GitlabAuthToken, gitlab.WithBaseURL(appConfig.GitLabBaseURL))
 	if err != nil {
 		fmt.Println(err)
 	}
 
 	mrOpts := &gitlab.ListMergeRequestsOptions{
 		ListOptions: gitlab.ListOptions{
-			PerPage: 100,
+			PerPage: mrPerPage,
 			Page:    1,
 		},
 		Scope: gitlab.Ptr("all"),
@@ -54,7 +41,7 @@ func main() {
 		}
 
 		for _, mergeRequest := range mrs {
-			if mergeRequest.ProjectID == GitLabProjectID {
+			if mergeRequest.ProjectID == appConfig.GitLabProjectID {
 				fmt.Println(
 					mergeRequest.Title, "|",
 					mergeRequest.Description, "|",
